@@ -21,7 +21,7 @@ function getLocation() {
 function getLocationError(error) {
     let errorText = null
 
-    switch(error.code) {
+    switch (error.code) {
         case error.PERMISSION_DENIED:
             errorText = "You have denied the request for Geolocation."
             console.error(errorText)
@@ -56,8 +56,8 @@ async function getLocationName(lat, lon) {
         console.log(location)
     
         if (!location.error) {
-            let pos = location.items[0].title
-            document.querySelector("div#weather p#location span#location").innerHTML = pos
+            let pos = `${location.items[0].address.street}, ${location.items[0].address.city}, ${location.items[0].address.countryName}`
+            document.querySelector("div#weather p#current span#location").innerHTML = pos
         }
         else {
             document.querySelector("div#error-location").classList.remove("hidden")
@@ -74,7 +74,7 @@ async function getWeather(lat=49.989116, lon=36.230737) {
     getLocationName(lat, lon)
 
     try {
-        const response = await fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=current,minutely,hourly,console.errors&appid=965377e7df13450410f0d36d23f9a5f6")
+        const response = await fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly,console.errors&appid=965377e7df13450410f0d36d23f9a5f6")
 
         let weather = await response.json()
         console.log('Weather forecast:')
@@ -93,8 +93,8 @@ function processWeather(weatherJSON) {
     let weather = document.querySelector("div#weather")
     weather.classList.remove("hidden")
 
-    if (document.querySelector("div#weather p#location span#location").textContent == "") {
-        weather.querySelector("div#weather p#location span#location").innerHTML = weatherJSON.lat + ', ' + weatherJSON.lon
+    if (document.querySelector("div#weather p#current span#location").textContent == "") {
+        weather.querySelector("div#weather p#current span#location").innerHTML = weatherJSON.lat + ', ' + weatherJSON.lon
     }
 
     let days = weather.querySelector("div.days")
@@ -106,54 +106,7 @@ function processWeather(weatherJSON) {
         let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
         let weatherMain = day.weather[0].main
-        let weatherIcon = null
-
-        if (weatherMain == 'Thunderstorm') {
-            weatherIcon = `🌩️`
-        }
-        else if (weatherMain == 'Drizzle') {
-            weatherIcon = `☔`
-        }
-        else if (weatherMain == 'Rain') {
-            weatherIcon = `☔`
-        }
-        else if (weatherMain == 'Snow') {
-            weatherIcon = `❄️`
-        }
-        else if (weatherMain == 'Mist') {
-            weatherIcon = `🌫️`
-        }
-        else if (weatherMain == 'Smoke') {
-            weatherIcon = `🌫️`
-        }
-        else if (weatherMain == 'Haze') {
-            weatherIcon = `🌫️`
-        }
-        else if (weatherMain == 'Dust') {
-            weatherIcon = `🌫️`
-        }
-        else if (weatherMain == 'Fog') {
-            weatherIcon = `🌫️`
-        }
-        else if (weatherMain == 'Sand') {
-            weatherIcon = `🌫️`
-        }
-        else if (weatherMain == 'Ash') {
-            weatherIcon = `🌫️`
-        }
-        else if (weatherMain == 'Squall') {
-            weatherIcon = `⛈️`
-        }
-        else if (weatherMain == 'Tornado') {
-            weatherIcon = `🌪️`
-        }
-        else if (weatherMain == 'Clear') {
-            weatherIcon = `☀️`
-            sunnyDays += 1
-        }
-        else {
-            weatherIcon = `☁️`
-        }
+        let weatherIcon = getWeatherIcon(weatherMain)
 
         let temp = ~~(day.temp.day - 273.15)
 
@@ -179,5 +132,46 @@ function processWeather(weatherJSON) {
 
     if (sunnyDays == 1) {
         document.querySelector("div#weather p.forecast-and-temp span.forecast-Clear").innerHTML = "\u{1F31E}"
+    }
+
+    let current = weatherJSON.current
+
+    let weatherMain = current.weather[0].main
+    let weatherIcon = getWeatherIcon(weatherMain)
+
+    let temp = ~~(current.temp - 273.15)
+
+    if (temp > 0) {
+        temp = `+${temp}`
+    }
+
+    document.querySelector("div#weather p#current span#weather").innerHTML = `<span class="forecast" title="${weatherMain}">${weatherIcon}</span> ${temp}&deg;`
+}
+
+function getWeatherIcon(weather) {
+    switch (weather) {
+        case "Thunderstorm":
+        case "Squall":
+            return "&#x26C8;&#xFE0F;"
+        case "Drizzle":
+        case "Rain":
+            return "&#x2614;"
+        case "Snow":
+            return "&#x2744;&#xFE0F;"
+        case "Mist":
+        case "Smoke":
+        case "Haze":
+        case "Dust":
+        case "Fog":
+        case "Sand":
+        case "Ash":
+            return "&#x1F32B;&#xFE0F;"
+        case "Tornado":
+            return "&#x1F32A;&#xFE0F;"
+        case "Clear":
+            return "&#x2600;&#xFE0F;"
+        case "Clouds":
+        default:
+            return "&#x2601;&#xFE0F;"
     }
 }
