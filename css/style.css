@@ -1,0 +1,66 @@
+body {
+    font-family: 'PT Sans', sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+div.info {
+    background: rgb(47, 130, 255);
+    border: 1px solid blue;
+    border-radius: 10px;
+    padding: 5px 20px;
+    color: white;
+}
+
+div.info.error {
+    background: rgb(255, 47, 47);
+    border-color: red;
+}
+
+div.weather div.days {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    margin: -5px;
+}
+
+div.weather div.days div.day {
+    background: linear-gradient(rgb(250, 253, 155), rgb(254, 255, 231));
+    border: 1px solid yellow;
+    border-radius: 10px;
+    padding: 5px 20px;
+    margin: 5px;
+    text-align: center;
+    width: 100%;
+    max-width: 75px;
+}
+div.weather div.days div.day p.date {
+    margin-bottom: 0px;
+}
+
+div.weather div.days div.day p.date span.day-of-month {
+    font-size: 20px;
+}
+
+div.weather div.days div.day p.day-of-week {
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 12px;
+    margin-top: 0px;
+}
+
+div.weather div.days div.day p.forecast {
+    font-size: 40px;
+}
+
+
+div.weather div.days div.day p.temp {
+    font-size: 40px;
+    margin-bottom: 12.5px;
+}
