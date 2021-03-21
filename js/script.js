@@ -64,9 +64,9 @@ async function getLocationName(lat, lon) {
             document.querySelector("div#error-location span#error").innerHTML = location.error + "<br>" + location.error_description
         }
     }
-    catch (error) {
+    catch (errorLocationName) {
         document.querySelector("div#error-location").classList.remove("hidden")
-        document.querySelector("div#error-location span#error").innerHTML = error
+        document.querySelector("div#error-location span#error").innerHTML = errorLocationName
     }
 }
 
@@ -82,10 +82,10 @@ async function getWeather(lat=49.989116, lon=36.230737) {
     
         processWeather(weather)
     }
-    catch (error) {
+    catch (errorWeather) {
         document.querySelector("div#weather").classList.add("hidden")
         document.querySelector("div#error-weather").classList.remove("hidden")
-        document.querySelector("div#error-weather span#error").innerHTML = error
+        document.querySelector("div#error-weather span#error").innerHTML = errorWeather
     }
 }
 
@@ -107,6 +107,10 @@ function processWeather(weatherJSON) {
 
         let weatherMain = day.weather[0].main
         let weatherIcon = getWeatherIcon(weatherMain)
+
+        if (weatherMain == "Clear") {
+            sunnyDays += 1
+        }
 
         let temp = ~~(day.temp.day - 273.15)
 
