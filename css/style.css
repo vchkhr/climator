@@ -1,5 +1,6 @@
 body {
     font-family: 'PT Sans', sans-serif;
+    font-display: swap;
     font-size: 1em;
 }
 
@@ -9,6 +10,7 @@ h1 {
 
 code {
     font-family: 'PT Mono', monospace;
+    font-display: swap;
     font-size: 0.8em;
 }
 
@@ -25,6 +27,12 @@ div.info {
     margin: 10px 0px
 }
 
+div.info.warn {
+    background: rgb(252, 255, 47);
+    border-color: yellow;
+    color: black;
+}
+
 div.info.error {
     background: rgb(255, 47, 47);
     border-color: red;
@@ -35,6 +43,7 @@ div#weather div.days {
     flex-flow: row wrap;
     justify-content: center;
     margin: -5px;
+    margin-bottom: 25px;
 }
 
 div#weather div.days div.day {

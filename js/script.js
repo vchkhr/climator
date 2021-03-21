@@ -1,3 +1,6 @@
+getLocation()
+const language = window.navigator.language.slice(0, 2)
+
 function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
@@ -6,19 +9,14 @@ function getLocation() {
         }, getLocationError)
     }
     else {
-        let errorText = "Geolocation is not supported by this browser."
+        console.error("Geolocation is not supported.")
 
-        console.error(errorText)
-
-        document.querySelector("div#error-geo span#error").innerHTML = errorText
         document.querySelector("div#error-geo").classList.remove("hidden")
         document.querySelector("div#allow-access").classList.add("hidden")
 
         getWeather()
     }
 }
-
-getLocation()
 
 function getLocationError(error) {
     let errorText = null
@@ -49,7 +47,33 @@ function getLocationError(error) {
     getWeather()
 }
 
-async function getWeather(lat=50.0095171, lon=36.31866) {
+async function getLocationName(lat, lon) {
+    try {
+        const response = await fetch("http://api.positionstack.com/v1/reverse?access_key=268a66c877559c7ebdc9ce923529f569&query=" + lat + "," + lon + "&limit=1&output=json")
+
+
+        let location = await response.json()
+        console.log('Location:')
+        console.log(location)
+    
+        if (!location.error) {
+            let pos = location.data[0].label
+            document.querySelector("div#weather p#location span#location").innerHTML = pos
+        }
+        else {
+            document.querySelector("div#error-location").classList.remove("hidden")
+            document.querySelector("div#error-location span#error").innerHTML = location.error.message
+        }
+    }
+    catch (error) {
+        document.querySelector("div#error-location").classList.remove("hidden")
+        document.querySelector("div#error-location span#error").innerHTML = error
+    }
+}
+
+async function getWeather(lat=49.989116, lon=36.230737) {
+    getLocationName(lat, lon)
+
     try {
         const response = await fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=current,minutely,hourly,console.errors&appid=965377e7df13450410f0d36d23f9a5f6")
 
@@ -69,7 +93,10 @@ async function getWeather(lat=50.0095171, lon=36.31866) {
 function processWeather(weatherJSON) {
     let weather = document.querySelector("div#weather")
     weather.classList.remove("hidden")
-    weather.querySelector("span.location").innerHTML = weatherJSON.lat + ', ' + weatherJSON.lon
+
+    if (document.querySelector("div#weather p#location span#location").textContent == "") {
+        weather.querySelector("div#weather p#location span#location").innerHTML = weatherJSON.lat + ', ' + weatherJSON.lon
+    }
 
     let days = weather.querySelector("div.days")
     let sunnyDays = 0
