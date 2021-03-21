@@ -1,5 +1,6 @@
+let language = window.navigator.language
+let country = "Ukraine" //null
 getLocation()
-const language = window.navigator.language
 
 function getLocation() {
     if (navigator.geolocation) {
@@ -56,7 +57,8 @@ async function getLocationName(lat, lon) {
         console.log(location)
     
         if (!location.error) {
-            let pos = `${location.items[0].address.street}, ${location.items[0].address.city}, ${location.items[0].address.countryName}`
+            country = location.items[0].address.countryName
+            let pos = `${location.items[0].address.street}, ${location.items[0].address.city}, ${country}`
             document.querySelector("div#weather p#current span#location").innerHTML = pos
         }
         else {
@@ -104,6 +106,7 @@ function processWeather(weatherJSON) {
         let date = new Date(day.dt * 1000)
         let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
         let daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        let dayOfWeek = daysOfWeek[date.getDay()]
 
         let weatherMain = day.weather[0].main
         let weatherIcon = getWeatherIcon(weatherMain)
@@ -131,7 +134,7 @@ function processWeather(weatherJSON) {
             }
         }
 
-        days.insertAdjacentHTML("beforeend", `<div class="day"><p class="date">${months[date.getMonth()]}, <span class="day-of-month">&nbsp;${date.getDate()}</span></p><p class="day-of-week">${daysOfWeek[date.getDay()]}</p><p class="forecast-and-temp"><span class="forecast forecast-${weatherMain}" title="${weatherMain} during the day">${weatherIcon}</span> <span class="temp" title="Temperature during the day">${temp}&deg;</span></p><p class="feels-like" title="Feels like in the morning, afternoon, evening & night">&#x1F9DD; ${feelsLike[0]}&deg;, ${feelsLike[1]}&deg;, ${feelsLike[2]}&deg;, ${feelsLike[3]}&deg;</p></div>`)
+        days.insertAdjacentHTML("beforeend", `<div class="day"><p class="date ${dayOfWeek}">${months[date.getMonth()]}, <span class="day-of-month">&nbsp;${date.getDate()}</span></p><p class="day-of-week ${dayOfWeek}">${dayOfWeek}</p><p class="forecast-and-temp"><span class="forecast forecast-${weatherMain}" title="${weatherMain} during the day">${weatherIcon}</span> <span class="temp" title="Temperature during the day">${temp}&deg;</span></p><p class="feels-like" title="Feels like in the morning, afternoon, evening & night">&#x1F9DD; ${feelsLike[0]}&deg;, ${feelsLike[1]}&deg;, ${feelsLike[2]}&deg;, ${feelsLike[3]}&deg;</p></div>`)
     }
 
     if (sunnyDays == 1) {
@@ -150,6 +153,12 @@ function processWeather(weatherJSON) {
     }
 
     document.querySelector("div#weather p#current span#weather").innerHTML = `<span class="forecast" title="${weatherMain}">${weatherIcon}</span> ${temp}&deg;`
+
+    for (day of ["Saturday", "Sunday"]) {
+        document.querySelectorAll("div#weather div.day p." + day).forEach(function(elem) {
+            elem.classList.add("red")
+        })
+    }
 }
 
 function getWeatherIcon(weather) {

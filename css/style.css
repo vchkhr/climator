@@ -20,6 +20,10 @@ code {
     display: none;
 }
 
+.red {
+    color: red;
+}
+
 div.info {
     background: rgb(47, 130, 255);
     border: 1px solid blue;
@@ -42,6 +46,7 @@ div.info.error {
 
 div#weather p#current {
     text-align: center;
+    font-size: 1.2em;
 }
 
 div#weather div.days {
