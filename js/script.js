@@ -1,5 +1,5 @@
 getLocation()
-const language = window.navigator.language.slice(0, 2)
+const language = window.navigator.language
 
 function getLocation() {
     if (navigator.geolocation) {
@@ -49,20 +49,19 @@ function getLocationError(error) {
 
 async function getLocationName(lat, lon) {
     try {
-        const response = await fetch("http://api.positionstack.com/v1/reverse?access_key=268a66c877559c7ebdc9ce923529f569&query=" + lat + "," + lon + "&limit=1&output=json")
-
+        const response = await fetch("https://revgeocode.search.hereapi.com/v1/revgeocode?at=" + lat + "," + lon + "&lang=" + language + "&apiKey=4VSUFmGhP2nM-835r9Z7U__-irR56swCOntUxM4qDMA")
 
         let location = await response.json()
         console.log('Location:')
         console.log(location)
     
         if (!location.error) {
-            let pos = location.data[0].label
+            let pos = location.items[0].title
             document.querySelector("div#weather p#location span#location").innerHTML = pos
         }
         else {
             document.querySelector("div#error-location").classList.remove("hidden")
-            document.querySelector("div#error-location span#error").innerHTML = location.error.message
+            document.querySelector("div#error-location span#error").innerHTML = location.error + "<br>" + location.error_description
         }
     }
     catch (error) {
