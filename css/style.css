@@ -49,6 +49,10 @@ div#weather p#current {
     font-size: 1.2em;
 }
 
+div#weather p#legend {
+    text-align: center;
+}
+
 div#weather div.days {
     display: flex;
     flex-flow: row wrap;
@@ -87,6 +91,14 @@ div#weather div.days div.day p.day-of-week {
 div#weather div.days div.day p.forecast-and-temp {
     font-size: 2.5em;
     margin: 25px 0px 25px 0px;
+}
+
+div#weather div.week {
+    margin: 25px 0px 25px 0px;
+}
+
+div#weather div.week p {
+    text-align: center;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -1,5 +1,5 @@
 let language = window.navigator.language
-let country = "Ukraine" //null
+let country = "Ukraine" // null
 getLocation()
 
 function getLocation() {
@@ -101,6 +101,7 @@ function processWeather(weatherJSON) {
 
     let days = weather.querySelector("div.days")
     let sunnyDays = 0
+    let avgTemperature = []
 
     for (let day of weatherJSON.daily) {
         let date = new Date(day.dt * 1000)
@@ -116,6 +117,7 @@ function processWeather(weatherJSON) {
         }
 
         let temp = ~~(day.temp.day - 273.15)
+        avgTemperature.push(temp)
 
         if (temp > 0) {
             temp = `+${temp}`
@@ -135,6 +137,17 @@ function processWeather(weatherJSON) {
         }
 
         days.insertAdjacentHTML("beforeend", `<div class="day"><p class="date ${dayOfWeek}">${months[date.getMonth()]}, <span class="day-of-month">&nbsp;${date.getDate()}</span></p><p class="day-of-week ${dayOfWeek}">${dayOfWeek}</p><p class="forecast-and-temp"><span class="forecast forecast-${weatherMain}" title="${weatherMain} during the day">${weatherIcon}</span> <span class="temp" title="Temperature during the day">${temp}&deg;</span></p><p class="feels-like" title="Feels like in the morning, afternoon, evening & night">&#x1F9DD; ${feelsLike[0]}&deg;, ${feelsLike[1]}&deg;, ${feelsLike[2]}&deg;, ${feelsLike[3]}&deg;</p></div>`)
+    }
+
+    var sumTemperature = 0
+    for (var i = 0; i < avgTemperature.length; i++) {
+        sumTemperature += avgTemperature[i]
+    }
+
+    avgTemperature = sumTemperature / avgTemperature.length
+
+    if (avgTemperature > 0) {
+        avgTemperature = `+${Math.round(avgTemperature)}`
     }
 
     if (sunnyDays == 1) {
@@ -159,6 +172,8 @@ function processWeather(weatherJSON) {
             elem.classList.add("red")
         })
     }
+
+    document.querySelector("div#weather div.week").innerHTML = `<p>Average this week: ${avgTemperature}&deg;</p>`
 }
 
 function getWeatherIcon(weather) {
