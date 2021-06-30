@@ -1,5 +1,6 @@
-# Weather Forecast
-Get current [weather forecast](https://vchkhr.com/weather-forecast) as well as weekly for your location.
+# [Weather Forecast](https://vchkhr.com/weather-forecast)
+Get current weather forecast as well as weekly for your location.
 
-## Feedback
-Feedback is always welcome at [GitHub Issues](https://github.com/vchkhr/weather-forecast/issues).
+## Feedback and Donations
+Feedback is always welcome at [GitHub Issues](https://github.com/vchkhr/weather-forecast/issues).\
+You can donate to this project using [Patreon](https://patreon.com/vchkhr).
