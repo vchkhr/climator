@@ -1,6 +1,6 @@
 {
-    "name": "Weather Forecast",
-    "short_name": "Weather Forecast",
+    "name": "Climator",
+    "short_name": "Climator",
     "icons": [
         {
             "src": "img/android-chrome-192x192.png",
