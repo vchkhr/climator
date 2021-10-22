@@ -27,13 +27,14 @@
     <meta property="og:image" content="https://climator.vchkhr.com/img/logo.svg">
     <meta property="og:locale" content="en_US">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-08Z806T1JC"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VJR5F6V8SX"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
 
-        gtag('config', 'G-08Z806T1JC');
+        gtag('config', 'G-VJR5F6V8SX');
     </script>
 
     <link rel="preload" href="fonts/PTSans-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
@@ -44,10 +45,22 @@
 <body>
     <h1>Climator</h1>
 
-    <div class="info error hidden" id="error-geo"><p>&#x1F92F; <span id="error">Geolocation is not supported by your browser.</span></p></div>
-    <div class="info error hidden" id="error-weather"><p>&#x1F92F; We encountered an unexpected problem requesting the weather forecast.</p><p>Please send this information to the developer:<p><code><span id="error"></span></code></p></div>
-    <div class="info warn hidden" id="error-location"><p>&#x1F62C; We encountered an unexpected problem requesting the name of your location.</p><p>Please send this information to the developer:<p><code><span id="error"></span></code></p></div>
-    <div class="info" id="allow-access"><p>&#x1F914; Please, allow access to your location...</p></div>
+    <div class="info error hidden" id="error-geo">
+        <p>&#x1F92F; <span id="error">Geolocation is not supported by your browser.</span></p>
+    </div>
+    <div class="info error hidden" id="error-weather">
+        <p>&#x1F92F; We encountered an unexpected problem requesting the weather forecast.</p>
+        <p>Please send this information to the developer:
+        <p><code><span id="error"></span></code></p>
+    </div>
+    <div class="info warn hidden" id="error-location">
+        <p>&#x1F62C; We encountered an unexpected problem requesting the name of your location.</p>
+        <p>Please send this information to the developer:
+        <p><code><span id="error"></span></code></p>
+    </div>
+    <div class="info" id="allow-access">
+        <p>&#x1F914; Please, allow access to your location...</p>
+    </div>
 
     <div id="weather" class="hidden">
         <!-- <p id="location">&#x1F4CD; Location: <span id="location"></span></p> -->
